@@ -26,30 +26,29 @@ function fetchTopicTree(lang, force_reparse) {
 
 function flattenNodes() {
     // now take that structured object, and reduce.
-    var flattened_nodes = {};
-    for (var node_type in _nodes) {
-        $.extend(flattened_nodes, _nodes[node_type]);
-    }
-    _nodes = flattened_nodes;
-    for (var id in _nodes) {
-        if(!_.has(_titles, _nodes[id]["title"])){
-            _titles[_nodes[id]["title"]] = id;
+    var flattenedNodes = {};
+    for (var n in _nodes) {
+        var node = _nodes[n];
+        if(!_.has(_titles, node["title"])){
+            _titles[node["title"]] = node["id"];
+            flattenedNodes[node["id"]] = node;
             var search_items = ["tags", "keywords"];
             for (var k = 0; k < search_items.length; k++) {
                 var search_item = search_items[k];
-                if (_nodes[id][search_item]!==undefined){
-                    for (var i = 0; i < _nodes[id][search_item].length; i++){
-                        if (_keywords[_nodes[id][search_item][i]]===undefined){
-                            _keywords[_nodes[id][search_item][i]] = [];
+                if (node[search_item]!==undefined){
+                    for (var i = 0; i < node[search_item].length; i++){
+                        if (_keywords[node[search_item][i]]===undefined){
+                            _keywords[node[search_item][i]] = [];
                         }
-                        if($.inArray(id, _keywords[_nodes[id][search_item][i]]) == -1) {
-                            _keywords[_nodes[id][search_item][i]].push(id);
+                        if($.inArray(node["id"], _keywords[node[search_item][i]]) == -1) {
+                            _keywords[node[search_item][i]].push(node["id"]);
                         }
                     }
                 }
             }
         }
     }
+    _nodes = flattenedNodes;
 }
 
 function fetchLocalOrRemote() {

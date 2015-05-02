@@ -92,7 +92,7 @@
          //    khan-lite.js, and search_autocomplete.js.
          // TODO(jamalex): include these in some Backbone Model state instead, synced via AJAX
          var INSTALLED_LANGUAGES_URL     = "{% url 'installed_language_packs' %}";
-         var SEARCH_TOPICS_URL           = "{% url 'flat_topic_tree' lang_code=current_language %}";
+         var SEARCH_TOPICS_URL           = "{% url 'topic_tree' channel=channel %}";
          var STATUS_URL                  = "{% url 'status' %}";
          var FORCE_SYNC_URL              = "{% url 'api_force_sync' %}";
 
