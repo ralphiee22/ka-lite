@@ -1,0 +1,18 @@
+machine:
+  python:
+    version: 2.7.9
+
+dependencies:
+  override:
+    - pip install -r requirements_dev.txt
+    - npm install
+    - npm install -g jshint
+
+test:
+  override:
+    - bin/kalite start --traceback -v2
+    - bin/kalite status
+    - bin/kalite stop --traceback -v2
+    - node build.js --staticfiles
+    - bin/kalite manage test
+    - jshint kalite/*/static/js/*/
